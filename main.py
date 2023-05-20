@@ -14,12 +14,19 @@ def get_article_urls_from_rss(rss_url):
     feed = feedparser.parse(rss_url)
 
     article_urls = []
+    article_count = len(feed.entries)
 
-    for entry in feed.entries:
+    for i, entry in enumerate(feed.entries, start=1):
         article_title = entry.title
         article_url = entry.link
         final_url = get_final_url(article_url)
         article_urls.append({"title": article_title, "url": final_url})
+
+        # 打印进度
+        progress = f"{i}/{article_count}"
+        print(f"正在获取文章URL: {progress} - {article_title}", end='\r')
+
+    print("获取文章URL完成！")
 
     return article_urls
 
@@ -45,7 +52,6 @@ article_count = len(article_urls)
 
 # 输出结果
 if article_count > 0:
-    print("获取文章URL成功！")
     print("获取到的文章数：", article_count)
 else:
     print("获取文章URL失败或未找到任何文章。")
