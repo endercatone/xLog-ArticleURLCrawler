@@ -2,6 +2,7 @@ import feedparser
 import requests
 import json
 import os
+import configparser
 
 def get_final_url(url):
     response = requests.get(url, allow_redirects=False)
@@ -30,8 +31,27 @@ def get_article_urls_from_rss(rss_url):
 
     return article_urls
 
-# 指定 RSS 订阅的 URL
-rss_url = input("博客URL:") + "/feed?format=xml"
+# 读取配置文件
+config = configparser.ConfigParser()
+config_file = 'config.ini'
+
+# 检查配置文件是否存在
+if not os.path.exists(config_file):
+    # 如果配置文件不存在，则创建一个新的配置文件并提示用户输入博客 URL
+    url = input("请输入博客 URL：")
+
+    # 创建配置文件并保存博客 URL
+    config['Blog'] = {'URL': url}
+    with open(config_file, 'w') as file:
+        config.write(file)
+else:
+    # 如果配置文件存在，则读取博客 URL
+    config.read(config_file)
+    url = config.get('Blog', 'URL')
+    print("已获取博客URL:"+url)
+
+# 构建 RSS 请求地址
+rss_url = url + "/feed?format=xml"
 
 # 删除上一次获取后保存的 article.json 文件
 if os.path.exists('article.json'):

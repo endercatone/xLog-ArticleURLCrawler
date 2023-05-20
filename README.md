@@ -2,12 +2,15 @@
 
 xLog-ArticleURLCrawler 是一个用于从基于 xLog 的博客中爬取文章 URL 的 Python 脚本。
 
+本项目使用ChatGPT协助开发
+
 ## 功能特点
 
 - 通过提供的 RSS 订阅 URL，从博客中获取文章 URL。
 - 支持处理跳转链接，获取最终的文章 URL。
 - 输出文章标题和对应的 URL。
 - 将获取到的文章 URL 保存为 JSON 文件。
+- 通过读取 `config.ini` 配置文件，实现了从指定博客 URL 获取文章 URL 的功能，提高了使用便捷性和重复利用性。
 
 ## 使用方法
 
@@ -19,7 +22,7 @@ git clone https://github.com/endercatone/xLog-ArticleURLCrawler.git
 2. 安装依赖：
 
 ```
-pip install feedparser requests tqdm
+pip install feedparser requests
 ```
 
 3. 在终端中运行脚本：
