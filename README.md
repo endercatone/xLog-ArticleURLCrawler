@@ -31,7 +31,7 @@ python main.py
 4. 根据提示输入博客的 URL，例如：
 
 ```
-博客URL: https://example.com/blog
+博客URL: https://example.com
 ```
 
 5. 等待脚本执行完成。获取到的文章 URL 将保存在当前目录下的 `article.json` 文件中。
