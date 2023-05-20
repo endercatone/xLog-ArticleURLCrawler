@@ -4,13 +4,12 @@ xLog-ArticleURLCrawler 是一个用于从基于 xLog 的博客中爬取文章 UR
 
 本项目使用ChatGPT协助开发
 
-## 功能特点
+## 运行流程
 
-- 通过提供的 RSS 订阅 URL，从博客中获取文章 URL。
-- 支持处理跳转链接，获取最终的文章 URL。
-- 输出文章标题和对应的 URL。
-- 将获取到的文章 URL 保存为 JSON 文件。
-- 通过读取 `config.ini` 配置文件，实现了从指定博客 URL 获取文章 URL 的功能，提高了使用便捷性和重复利用性。
+1. 从`config.ini`读取博客的URL
+2. 通过xLog的RSS订阅功能获取文章名和文章URL
+3. 多线程获取真实URL
+4. 写到`article.json`
 
 ## 使用方法
 

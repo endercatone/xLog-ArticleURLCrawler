@@ -3,6 +3,7 @@ import requests
 import json
 import os
 import configparser
+from concurrent.futures import ThreadPoolExecutor
 
 def get_final_url(url):
     response = requests.get(url, allow_redirects=False)
@@ -17,15 +18,19 @@ def get_article_urls_from_rss(rss_url):
     article_urls = []
     article_count = len(feed.entries)
 
-    for i, entry in enumerate(feed.entries, start=1):
+    def process_entry(entry):
         article_title = entry.title
         article_url = entry.link
         final_url = get_final_url(article_url)
         article_urls.append({"title": article_title, "url": final_url})
 
         # 打印进度
-        progress = f"{i}/{article_count}"
+        progress = f"{len(article_urls)}/{article_count}"
         print(f"正在获取文章URL: {progress} - {article_title}", end='\r')
+
+    # 使用线程池处理每个文章 URL
+    with ThreadPoolExecutor(max_workers=5) as executor:
+        executor.map(process_entry, feed.entries)
 
     print("获取文章URL完成！")
 
@@ -48,7 +53,7 @@ else:
     # 如果配置文件存在，则读取博客 URL
     config.read(config_file)
     url = config.get('Blog', 'URL')
-    print("已获取博客URL:"+url)
+    print("已获取博客URL:" + url)
 
 # 构建 RSS 请求地址
 rss_url = url + "/feed?format=xml"
